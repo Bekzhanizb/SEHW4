@@ -1,7 +1,9 @@
 package bekezhan.io.lab4.service;
 
+;
 import bekezhan.io.lab4.entity.ApplicationRequest;
 import bekezhan.io.lab4.repository.ApplicationRequestRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,29 +11,37 @@ import java.util.Optional;
 
 @Service
 public class ApplicationRequestService {
-    private final ApplicationRequestRepository repo;
 
-    public ApplicationRequestService(ApplicationRequestRepository repo) {
-        this.repo = repo;
+    @Autowired
+    private ApplicationRequestRepository repository;
+
+    public List<ApplicationRequest> findAll() {
+        return repository.findAll();
     }
 
-    public List<ApplicationRequest> getAllRequests() {
-        return repo.findAll();
+    public List<ApplicationRequest> findByHandled(boolean handled) {
+        return repository.findByHandled(handled);
     }
 
-    public List<ApplicationRequest> getRequestsByHandled(boolean handled) {
-        return repo.findByHandled(handled);
-    }
-
-    public Optional<ApplicationRequest> getRequest(Long id) {
-        return repo.findById(id);
+    public Optional<ApplicationRequest> findById(Long id) {
+        return repository.findById(id);
     }
 
     public ApplicationRequest save(ApplicationRequest request) {
-        return repo.save(request);
+        return repository.save(request);
     }
 
-    public void delete(Long id) {
-        repo.deleteById(id);
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    public ApplicationRequest processRequest(Long id) {
+        Optional<ApplicationRequest> request = repository.findById(id);
+        if (request.isPresent()) {
+            ApplicationRequest applicationRequest = request.get();
+            applicationRequest.setHandled(true);
+            return repository.save(applicationRequest);
+        }
+        return null;
     }
 }

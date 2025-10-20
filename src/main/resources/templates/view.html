@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>View Request</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card">
+        <h2>Request Details</h2>
+        <div th:if="${request != null}">
+            <div class="mb-3">
+                <strong>ID:</strong> <span th:text="${request.id}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>User Name:</strong> <span th:text="${request.userName}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Course Name:</strong> <span th:text="${request.courseName}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Commentary:</strong> <span th:text="${request.commentary}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Phone:</strong> <span th:text="${request.phone}"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Status:</strong>
+                <span th:class="${request.handled} ? 'status-processed' : 'status-pending'"
+                      th:text="${request.handled} ? 'Processed' : 'Pending'"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <form th:if="${!request.handled}" th:action="@{/process/{id}(id=${request.id})}" method="post">
+                    <button type="submit" class="btn btn-success">Process Request</button>
+                </form>
+                <form th:action="@{/delete/{id}(id=${request.id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete Request</button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${request == null}">
+            <p class="text-danger">Request not found.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
