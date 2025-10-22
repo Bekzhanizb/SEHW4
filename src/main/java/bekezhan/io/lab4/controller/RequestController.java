@@ -1,17 +1,17 @@
 package bekezhan.io.lab4.controller;
 
-import bekezhan.io.lab4.entity.ApplicationRequest;
-import bekezhan.io.lab4.service.ApplicationRequestService;
+import bekezhan.io.lab4.entity.Request;
+import bekezhan.io.lab4.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class ApplicationRequestController {
+public class RequestController {
 
     @Autowired
-    private ApplicationRequestService service;
+    private RequestService service;
 
     @GetMapping("/")
     public String listAll(Model model) {
@@ -33,12 +33,12 @@ public class ApplicationRequestController {
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("request", new ApplicationRequest());
+        model.addAttribute("request", new Request());
         return "add";
     }
 
     @PostMapping("/save")
-    public String saveRequest(@ModelAttribute ApplicationRequest request) {
+    public String saveRequest(@ModelAttribute Request request) {
         service.save(request);
         return "redirect:/";
     }

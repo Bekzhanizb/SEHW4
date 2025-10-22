@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationRequest {
+public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
